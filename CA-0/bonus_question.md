@@ -1,0 +1,5 @@
+**Bonus Question:**
+
+Only **option (2)** is correct; the others are false. A 95% confidence interval for $\mu$ is specifically designed to estimate the *true average* (population mean) of the pipeline’s pressure, *not* the sample average we already observed (option (1)) and *not* a range covering individual measurements (options (3) and (4)).
+
+Moreover, the sample standard deviation of individual measurements might be ($\sigma$) units, but the *standard error* of the *sample mean* (i.e., the variability of $\bar{X}$) is roughly $(\sigma)/\sqrt{100}$ units. This difference shows why a confidence interval for the mean is narrower than a range intended to contain most (e.g., 95%) of the actual measurements. Hence, **option (2)** is the one that correctly interprets what a 95% confidence interval for $\mu$ accomplishes.
