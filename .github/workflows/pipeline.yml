@@ -17,6 +17,6 @@ jobs:
       - name: Navigate To Project
         run: cd "Main Project/Project_P2_810100258_810100260_810199383"
       - name: Install Dependencies...
-        run: pip install -r requirements.txt
+        run: pip install -r "Main Project/Project_P2_810100258_810100260_810199383/requirements.txt"
       - name: Run the Pipeline!
         run: python pipeline.py
