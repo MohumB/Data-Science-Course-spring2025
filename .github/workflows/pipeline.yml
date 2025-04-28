@@ -22,4 +22,4 @@ jobs:
           pip install --only-binary :all: numpy  # Pre-compiled wheels
           pip install -r "Main Project/Project_P2_810100258_810100260_810199383/requirements.txt"
       - name: Run the Pipeline!
-        run: python pipeline.py
+        run: python Main\ Project/Project_P2_810100258_810100260_810199383/pipeline.py
