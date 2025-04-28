@@ -17,6 +17,9 @@ jobs:
       - name: Navigate To Project
         run: cd "Main Project/Project_P2_810100258_810100260_810199383"
       - name: Install Dependencies...
-        run: pip install -r "Main Project/Project_P2_810100258_810100260_810199383/requirements.txt"
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install --only-binary :all: numpy  # Pre-compiled wheels
+          pip install -r "Main Project/Project_P2_810100258_810100260_810199383/requirements.txt"
       - name: Run the Pipeline!
-        run: python pipeline.py
+        run: python Main\ Project/Project_P2_810100258_810100260_810199383/pipeline.py
