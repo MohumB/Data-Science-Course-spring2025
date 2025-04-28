@@ -1,5 +1,5 @@
 pandas==2.2.0
 numpy==2.0.0
-scikit-learn==1.2.0
+scikit-learn==1.4.0
 sqlite3  # If you're using SQLite
 psycopg2  # Uncomment if using PostgreSQL
