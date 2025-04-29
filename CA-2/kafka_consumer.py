@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 logging.basicConfig(level = logging.INFO, format = "%(asctime)s %(levelname)s %(message)s")
 
 conf = {
-    'bootstrap.servers': 'localhost:9092', #think on the port
+    'bootstrap.servers': 'kafka:9092', #think on the port
     'group.id': 'transaction_consumer-group',
     'auto.offset.reset': 'earliest'
 }
@@ -16,7 +16,7 @@ conf = {
 consumer = Consumer(conf)
 consumer.subscribe(['darooghe_transactions'])
 
-err_producer = Producer({'bootstrap.servers': 'localhost:9092'})
+err_producer = Producer({'bootstrap.servers': 'kafka:9092'})
 
 def delivery_report(err, msg):
     if err:
