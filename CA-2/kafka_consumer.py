@@ -11,8 +11,8 @@ conf = {
     'bootstrap.servers': 'kafka:9092', 
     'group.id': 'transaction_consumer-group',
     'auto.offset.reset': 'earliest',
-    'api.version.request': False,
-    'socket.timeout.ms': 1000,
+    # 'api.version.request': False, # depricated
+    'socket.timeout.ms': 1600, # Increased to ensure it's at least 1000ms higher than fetch.wait.max.ms
     'security.protocol': 'PLAINTEXT',
 }
 
@@ -35,14 +35,13 @@ def delivery_report(err, msg):
     if err:
         logging.error(f"Message delivery failed: {err}")
     else:   
-        logging.info(f"Error logged to {msg.topic()} [Partition: {msg.partition()}]")
-        
+        logging.debug(f"Error logged to {msg.topic()} [Partition: {msg.partition()}]")
         
 def validate_amount(transaction):
     total_amount_expected = transaction['amount'] + transaction['vat_amount']
     + transaction['commission_amount']
     
-    return transaction['total_amount'] == total_amount_expected
+    return total_amount_expected, transaction['total_amount'] == total_amount_expected
 
 
 def validate_time(transaction, errors):
@@ -80,7 +79,7 @@ def validate_device(transaction):
 def validate_transaction(transaction):
     errors = []
     
-    is_amount_validated = validate_amount(transaction)
+    total_amount_expected, is_amount_validated = validate_amount(transaction)
     
     if not is_amount_validated:
         errors.append({
@@ -103,7 +102,7 @@ def validate_transaction(transaction):
 def process_transaction(msg):
     try:
         transaction = json.loads(msg.value())
-        logging.info(f"Processing transaction: {transaction['transaction_id']}")
+        logging.debug(f"Processing transaction: {transaction['transaction_id']}")
         
        
         errors = validate_transaction(transaction)
@@ -115,16 +114,16 @@ def process_transaction(msg):
                 "errors": errors,
                 "original_data": transaction
             }
-            error_producer.produce(
+            err_producer.produce(
                 'darooghe.error_logs',
                 key=transaction['transaction_id'],
                 value=json.dumps(error_message),
                 callback=delivery_report
             )
-            error_producer.flush()
-            logging.warning(f"Invalid transaction detected: {transaction['transaction_id']}")
+            err_producer.flush()
+            #logging.warning(f"Invalid transaction detected: {transaction['transaction_id']}")
         else:
-            logging.info(f"Valid transaction: {transaction['transaction_id']}")
+            logging.debug(f"Valid transaction: {transaction['transaction_id']}")
     
     except json.JSONDecodeError:
         logging.error("Failed to decode message")

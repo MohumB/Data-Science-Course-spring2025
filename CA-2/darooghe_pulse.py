@@ -195,12 +195,12 @@ if __name__ == "__main__":
     producer = Producer(conf)
     
     for _ in range(5):  # Retry 5 times
-    try:
-        producer.list_topics(timeout=5)  # Test connection
-        break
-    except Exception as e:
-        logging.warning(f"Kafka connection failed: {e}")
-        time.sleep(5)
+        try:
+            producer.list_topics(timeout=5)  # Test connection
+            break
+        except Exception as e:
+            logging.warning(f"Kafka connection failed: {e}")
+            time.sleep(5)
         
     if not skip_initial:
         produce_historical_events(producer, topic, count=20000)
