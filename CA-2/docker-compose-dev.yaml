@@ -8,6 +8,8 @@ services:
       - "9092:9092"
       - "29092:29092"  # Added for localhost access
     environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_NUM_PARTITIONS: "1"
       KAFKA_NODE_ID: "1"
       KAFKA_PROCESS_ROLES: "broker,controller"
       KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:29092"
@@ -31,7 +33,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: transaction-consumer
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: "kafka:9092"
+    volumes:
+      - .:/app
+    working_dir: /app
+    networks:
+      - kafka_network
+    command: python kafka_consumer.py
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     container_name: kafdrop
