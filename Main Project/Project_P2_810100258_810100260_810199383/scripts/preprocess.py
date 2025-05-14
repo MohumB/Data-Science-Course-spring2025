@@ -4,7 +4,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
-    
+import sys
 nltk.download('punkt')
 
 def preprocess_data(df):
@@ -14,6 +14,8 @@ def preprocess_data(df):
     return df
 
 if __name__ == "__main__":
-    df = pd.read_csv('../../Phase 1/CSV/text.csv')  
+    text_csv = sys.argv[1]
+    cleaned_text_csv = sys.argv[2]
+    df = pd.read_csv(text_csv)  
     df_clean = preprocess_data(df)
-    df_clean.to_csv('../../Phase 1/CSV/cleaned_text.csv', index=False)
+    df_clean.to_csv(cleaned_text_csv, index=False)

@@ -1,18 +1,20 @@
 import pandas as pd
-from preprocess import preprocess_data
-import pickle
-
+from nltk.tokenize import sent_tokenize
+import sys
 def feature_engineering(df):
-    df['next_token'] = df['token_text'].shift(-1)  
-    df.dropna(inplace=True)  
+    sentences = []
 
-    df['bigram'] = df['token_text'] + " " + df['next_token']
-    
-    df.to_pickle('processed_data.pkl') 
-    
-    return df
+    for idx, row in df.iterrows():
+        story = row['text']
+        for sentence in sent_tokenize(story):
+            sentences.append({'story_id': idx, 'sentence': sentence})
+
+    return pd.DataFrame(sentences)
 
 if __name__ == "__main__":
-    df = pd.read_pickle('../../Phase 1/CSV/cleaned_text.csv')  
-    df_fe = feature_engineering(df)
+    cleaned_text_csv = sys.argv[1]
+    sentences_csv = sys.argv[2]
     
+    df = pd.read_csv(cleaned_text_csv)  
+    df_sentences = feature_engineering(df)
+    df_sentences.to_csv(sentences_csv, index=False)
