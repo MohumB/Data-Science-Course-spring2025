@@ -2,7 +2,12 @@ import pandas as pd
 from nltk.tokenize import sent_tokenize
 import sys
 def feature_engineering(df):
+<<<<<<< Updated upstream
     sentences = []
+=======
+    df['next_token'] = df['token_text'].shift(-1)  
+    df.dropna(inplace = True)  
+>>>>>>> Stashed changes
 
     for idx, row in df.iterrows():
         story = row['text']
