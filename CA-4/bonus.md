@@ -1,3 +1,72 @@
+
+# Question 2
+
+Given a CNN that takes an input image of size **28 × 28 × 3**, it passes through a convolutional layer with **3 filters**, each of size **2 × 2 × 3**, using **valid padding**.
+
+
+**A.** How many learnable parameters does this convolutional layer have?  
+**B.** How many parameters would a fully connected layer require to replicate this convolutional layer’s behavior?
+
+---
+
+## Solution
+
+### A. Learnable Parameters in the Convolutional Layer
+
+- Each filter has size:  
+  \[
+  2 \times 2 \times 3 = 12
+  \]  
+  (number of weights per filter)
+  
+- Each filter has one bias term, so total parameters per filter:  
+  \[
+  12 + 1 = 13
+  \]
+
+- Number of filters: 3
+
+- Therefore, total learnable parameters in the convolutional layer:  
+  \[
+  3 \times 13 = \mathbf{39}
+  \]
+
+---
+
+### B. Parameters in the Equivalent Fully Connected Layer
+
+- **Output size of convolution layer (valid padding):**  
+  \[
+  (28 - 2 + 1) \times (28 - 2 + 1) = 27 \times 27
+  \]  
+  Since there are 3 filters, total output units:  
+  \[
+  27 \times 27 \times 3 = 2187
+  \]
+
+- **Input size to fully connected layer:**  
+  \[
+  28 \times 28 \times 3 = 2352
+  \]
+
+- Number of weights:  
+  \[
+  2352 \times 2187 = 5,143,824
+  \]
+
+- Number of biases:  
+  \[
+  2187
+  \]
+
+- **Total parameters:**  
+  \[
+  5,143,824 + 2,187 = 5,146,011
+  \]
+
+---
+
+
 # Question 3 – Vanishing Gradient in Recurrent Neural Networks (RNNs)
 
 ## Mathematical Derivation
