@@ -1,6 +1,6 @@
 import pandas as pd
 from database_connection import get_connection
-
+from config import TXT
 
 def import_text_to_db(text_file_path):
     conn = get_connection()
@@ -24,5 +24,4 @@ def import_text_to_db(text_file_path):
     print(f"Imported {len(lines)} lines into the database.")
 
 if __name__ == "__main__":
-    text_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/David_Copperfield.txt"
-    import_text_to_db(text_path)
+    import_text_to_db(TXT)

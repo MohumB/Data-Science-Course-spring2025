@@ -1,8 +1,7 @@
 import pandas as pd
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle
-
+from config import PREPROCESSED_CSV,FEATURE_ENGINEERED_CSV
 def feature_engineering(df):
     
     df['line_length'] = df['clean_line'].apply(len)
@@ -18,9 +17,8 @@ def feature_engineering(df):
     return df
 
 if __name__ == "__main__":
-    preproc_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/preprocessed_data.csv"
-    df = pd.read_csv(preproc_path)
+    df = pd.read_csv(PREPROCESSED_CSV)
     df =feature_engineering(df)
-    df.to_csv("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/feature_engineered_data.csv", index=False)
+    df.to_csv(FEATURE_ENGINEERED_CSV, index=False)
     print("Feature engineering completed and saved.")
 
