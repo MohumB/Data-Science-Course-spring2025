@@ -7,15 +7,15 @@ def preprocess_text(text):
     return text.lower().strip()
 
 def main():
-    raw_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.pkl"
-    df = pd.read_pickle(raw_path)
+    raw_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.csv"
+    df = pd.read_csv(raw_path)
     df['clean_line'] = df['line'].apply(preprocess_text)
 
    
     df = df[df['clean_line'] != '']
 
     print(f"Preprocessed {len(df)} lines.")
-    df.to_pickle("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/preprocessed_data.pkl")
+    df.to_csv("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/preprocessed_data.csv")
 
 if __name__ == "__main__":
     main()

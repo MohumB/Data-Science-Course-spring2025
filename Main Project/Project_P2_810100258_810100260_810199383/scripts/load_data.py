@@ -8,7 +8,7 @@ def load_data(db_path):
     df = pd.read_sql_query(query, conn)
     conn.close()
     print(f"Loaded {len(df)} rows from the database.")
-    df.to_pickle("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.pkl")
+    df.to_csv("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.csv", index=False)
 
 if __name__ == "__main__":
     db_path="E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Project_P2_810100258_810100260_810199383/database/dataset.db"
