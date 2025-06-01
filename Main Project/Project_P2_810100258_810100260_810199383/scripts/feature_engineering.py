@@ -1,25 +1,26 @@
 import pandas as pd
-from nltk.tokenize import sent_tokenize
-import sys
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pickle
+
 def feature_engineering(df):
-<<<<<<< Updated upstream
-    sentences = []
-=======
-    df['next_token'] = df['token_text'].shift(-1)  
-    df.dropna(inplace = True)  
->>>>>>> Stashed changes
+    
+    df['line_length'] = df['clean_line'].apply(len)
 
-    for idx, row in df.iterrows():
-        story = row['text']
-        for sentence in sent_tokenize(story):
-            sentences.append({'story_id': idx, 'sentence': sentence})
+    vectorizer = TfidfVectorizer(max_features=100)
+    tfidf_matrix = vectorizer.fit_transform(df['clean_line'])
 
-    return pd.DataFrame(sentences)
+    with open("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/tfidf_vectorizer.pkl", "wb") as f:
+        pickle.dump(vectorizer, f)
+    with open("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/tfidf_features.pkl", "wb") as f:
+        pickle.dump(tfidf_matrix, f)
+
+    return df
 
 if __name__ == "__main__":
-    cleaned_text_csv = sys.argv[1]
-    sentences_csv = sys.argv[2]
-    
-    df = pd.read_csv(cleaned_text_csv)  
-    df_sentences = feature_engineering(df)
-    df_sentences.to_csv(sentences_csv, index=False)
+    preproc_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/preprocessed_data.pkl"
+    df = pd.read_pickle(preproc_path)
+    df =feature_engineering(df)
+    df.to_pickle("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/feature_engineered_data.pkl")
+    print("Feature engineering completed and saved.")
+

@@ -1,31 +1,28 @@
-import sqlite3
 import pandas as pd
-import os
-import sys
-def import_sentences_to_db(csv_path, db_path):
-    df = pd.read_csv(csv_path)
+from database_connection import get_connection
 
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
 
-    # Create table
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS sentences (
+def import_text_to_db(text_file_path):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS book_lines (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            story_id INTEGER,
-            sentence TEXT
+            line TEXT NOT NULL
         )
     ''')
 
-    # Insert data
-    for _, row in df.iterrows():
-        c.execute("INSERT INTO sentences (story_id, sentence) VALUES (?, ?)",
-                  (row['story_id'], row['sentence']))
+    with open(text_file_path, encoding='utf-8') as f:
+        lines = [line.strip() for line in f if line.strip()]  
+
+    cursor.executemany('INSERT INTO book_lines (line) VALUES (?)', [(line,) for line in lines])
 
     conn.commit()
     conn.close()
 
+    print(f"Imported {len(lines)} lines into the database.")
+
 if __name__ == "__main__":
-    csv_path = sys.argv[1]
-    db_path = sys.argv[2]
-    import_sentences_to_db(csv_path, db_path)
+    text_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/David_Copperfield.txt"
+    import_text_to_db(text_path)

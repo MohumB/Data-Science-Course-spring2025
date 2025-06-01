@@ -1,21 +1,21 @@
 import pandas as pd
-import string
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-import nltk
-import sys
-nltk.download('punkt')
+import re
 
-def preprocess_data(df):
-    df['text'] = df['text'].str.lower()
-    df['token_text'] = df['token_text'].apply(lambda x: x.translate(str.maketrans('', '', string.punctuation)))
-    df['token_text'] = df['token_text'].apply(lambda x: word_tokenize(x))
-    return df
+def preprocess_text(text):
+    text = re.sub(r'[^a-zA-Z0-9\s,.!?;:\'-]', '', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.lower().strip()
+
+def main():
+    raw_path = "E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.pkl"
+    df = pd.read_pickle(raw_path)
+    df['clean_line'] = df['line'].apply(preprocess_text)
+
+   
+    df = df[df['clean_line'] != '']
+
+    print(f"Preprocessed {len(df)} lines.")
+    df.to_pickle("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/preprocessed_data.pkl")
 
 if __name__ == "__main__":
-    text_csv = sys.argv[1]
-    cleaned_text_csv = sys.argv[2]
-    df = pd.read_csv(text_csv)  
-    df_clean = preprocess_data(df)
-    df_clean.to_csv(cleaned_text_csv, index=False)
+    main()

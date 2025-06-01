@@ -1,18 +1,15 @@
 import pandas as pd
-from database_connection import connect_db
-import sys
+from database_connection import get_connection
 
 def load_data(db_path):
-    conn = connect_db(db_path)
+    conn = get_connection(db_path)
     
-    query = "SELECT text FROM text"
-    df = pd.read_sql(query, conn)
+    query = "SELECT * FROM book_lines"
+    df = pd.read_sql_query(query, conn)
     conn.close()
-    
-    return df
+    print(f"Loaded {len(df)} rows from the database.")
+    df.to_pickle("E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Phase 1/Database Assets/raw_data.pkl")
 
 if __name__ == "__main__":
-    db_path = sys.argv[1]
-    text_csv = sys.argv[2]
-    df = load_data(db_path)
-    df.to_csv(text_csv, index=False)
+    db_path="E:/403-2/DS/Data-Science-Course-spring2025/Main Project/Project_P2_810100258_810100260_810199383/database/dataset.db"
+    load_data(db_path)
