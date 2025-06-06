@@ -17,6 +17,20 @@ setup(
         "peft",
         "huggingface-hub",
         "accelerate",
+
+        # tested with below versions and failed on xformer and torch conflict
+        # "torch==2.7.1",
+        # "unsloth @ git+https://github.com/unslothai/unsloth.git",
+        # "protobuf<4.0.0",
+        # "trl==0.8.6",
+        # "transformers",
+        # "datasets>=3.4.1",
+        # "peft",
+        # "huggingface-hub",
+        # "accelerate",
+        # "fsspec[http]<=2025.3.0,>=2023.1.0",
+        # "triton==3.3.1",
+        # "xformers==0.0.30"
     ],
     python_requires=">=3.8",
 )
