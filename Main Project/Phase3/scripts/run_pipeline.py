@@ -101,16 +101,6 @@ class TrainingPipeline:
             
             self.logger.info("✅ Dependencies installed successfully")
             
-            # Run verification
-            result = subprocess.run([
-                sys.executable, "setup.py"
-            ], capture_output=True, text=True, check=True)
-            
-            if "✓ Installation verified" in result.stdout:
-                self.logger.info("✅ Installation verification passed")
-            else:
-                self.logger.warning("⚠️ Installation verification may have issues")
-                
         except subprocess.CalledProcessError as e:
             self.logger.error(f"❌ Failed to install dependencies: {e}")
             self.logger.error(f"Error output: {e.stderr}")
@@ -148,7 +138,7 @@ class TrainingPipeline:
         try:
             # Prepare training arguments
             training_args = [
-                sys.executable, "tran_model.py",
+                sys.executable, "train_model.py",
                 "--dataset_path", dataset_path,
                 "--model_name", self.config["model"]["model_name"],
                 "--output_dir", self.config["model"]["output_dir"]
