@@ -220,10 +220,6 @@ class TrainingPipeline:
             # Stage 1: Data Loading and Preprocessing
             dataset_path = self.load_and_preprocess_data()
 
-
-            perplexity = test(model_path, self.config["data"]["input_file"])  # Call the evaluation function
-            self.logger.info(f"Perplexity: {perplexity}")
-            
             model_path = self.train_model(dataset_path)
             
             # Stage 3: Validation
