@@ -5,7 +5,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from datasets import load_dataset
 import logging
 
-def evaluate(model_path: str, dataset_path: str):
+def test(model_path: str, dataset_path: str):
     """Evaluate a model's performance using perplexity."""
     
     # Set up logging
@@ -44,4 +44,4 @@ def evaluate(model_path: str, dataset_path: str):
 
 if __name__ == "__main__":
     # Example usage when running directly
-    evaluate("path_to_trained_model", "path_to_test_dataset.txt")
+    test("path_to_trained_model", "path_to_test_dataset.txt")
