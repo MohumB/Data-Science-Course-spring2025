@@ -12,7 +12,6 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 import json
-from test import test # Import evaluate function from evaluate.py
 
 
 class TrainingPipeline:
@@ -208,7 +207,6 @@ class TrainingPipeline:
         self.logger.info(f"📋 Training report saved to: {report_path}")
         self.logger.info(f"🎉 Training pipeline completed in {duration.total_seconds()/60:.2f} minutes")
     
-        
     def run_training_pipeline(self):
         """Execute the complete training pipeline"""
         self.logger.info("🚀 Starting Training Pipeline")
@@ -222,17 +220,12 @@ class TrainingPipeline:
             # Stage 1: Data Loading and Preprocessing
             dataset_path = self.load_and_preprocess_data()
             
-            perplexity = test(model_path, self.config["data"]["input_file"])  # Call the evaluation function
-            self.logger.info(f"Perplexity: {perplexity}")
             # Stage 2: Model Training
             model_path = self.train_model(dataset_path)
             
             # Stage 3: Validation
             self.validate_trained_model(model_path)
             
-            perplexity = test(model_path, self.config["data"]["input_file"])  # Call the evaluation function
-            self.logger.info(f"Perplexity: {perplexity}")
-
             # Stage 4: Generate report
             self.generate_training_report(model_path)
             
