@@ -1,18 +1,15 @@
 import pandas as pd
-from database_connection import connect_db
-import sys
+from database_connection import get_connection
+from config import RAW_DATA_CSV
 
-def load_data(db_path):
-    conn = connect_db(db_path)
+def load_data():
+    conn = get_connection()
     
-    query = "SELECT text FROM text"
-    df = pd.read_sql(query, conn)
+    query = "SELECT * FROM book_lines"
+    df = pd.read_sql_query(query, conn)
     conn.close()
-    
-    return df
+    print(f"Loaded {len(df)} rows from the database.")
+    df.to_csv(RAW_DATA_CSV, index=False)
 
 if __name__ == "__main__":
-    db_path = sys.argv[1]
-    text_csv = sys.argv[2]
-    df = load_data(db_path)
-    df.to_csv(text_csv, index=False)
+    load_data()
